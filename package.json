@@ -1,0 +1,26 @@
+{
+  "name": "asg-bloodtester",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "remoteDeploy": "yarn build && ssh ASG@10.248.57.58 'rm -rf ~/interface' && scp -r ./dist ASG@10.248.57.58:~/interface",
+    "remoteRun": "ssh -t ASG@10.248.57.58 \"cd ~/interface && python3 -m http.server\" ",
+    "remoteDeployRun": "yarn remoteDeploy && yarn remoteRun"
+  },
+  "dependencies": {
+    "preact": "^10.19.3",
+    "preact-compat": "^3.19.0",
+    "react-range": "^1.8.14"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.7.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  },
+  "main": "index.js",
+  "license": "MIT"
+}
