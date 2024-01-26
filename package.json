@@ -20,7 +20,5 @@
     "@preact/preset-vite": "^2.7.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
-  },
-  "main": "index.js",
-  "license": "MIT"
+  }
 }
