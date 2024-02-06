@@ -7,8 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "remoteDeploy": "yarn build && ssh ASG@10.248.57.58 'rm -rf ~/interface' && scp -r ./dist ASG@10.248.57.58:~/interface",
-    "remoteRun": "ssh -t ASG@10.248.57.58 \"cd ~/interface && python3 -m http.server\" ",
+    "deployInterface": "yarn build && ssh pi@10.228.65.226 'rm -rf ~/interface' && scp -r ./dist pi@10.228.65.226:~/interface",
+    "deployController": "ssh pi@10.228.65.226 'rm -rf ~/syringe-controller' && scp -r ./syringe-controller pi@10.228.65.226:~/syringe-controller",
+    "deploy": "yarn deployInterface && yarn deployController",
+    "remoteRun": "ssh -t pi@10.228.65.226 \"cd ~/interface && python3 -m http.server\" ",
     "remoteDeployRun": "yarn remoteDeploy && yarn remoteRun"
   },
   "dependencies": {

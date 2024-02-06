@@ -20,17 +20,17 @@ class InputField(tk.Frame):
         self._value = 0
         self._callback = callback
         
-        label = tk.Label(self, text=label)
-        label.pack(side="left")
+        label = tk.Label(self, text=label, font=("Helvetica 15 bold"))
+        label.pack(side="left", padx=1)
         
-        self._valueEntry = tk.Entry(self, )
+        self._valueEntry = tk.Entry(self, font="Helvetica 15", width=8)
         self._valueEntry.bind("<FocusOut>", lambda *_: self._validateInput())
         self._valueEntry.bind("<Return>", lambda *_: self._validateInput())
         self._valueEntry.insert(0, str(self._value)) # Puts in 0 as default
-        self._valueEntry.pack(side="left")
+        self._valueEntry.pack(side="left", padx=1)
         
-        goButton = tk.Button(self, text=buttonLabel, command=lambda *_: self._onGo())
-        goButton.pack(side="left")
+        goButton = tk.Button(self, text=buttonLabel, command=lambda *_: self._onGo(), font=("Helvetica 15 bold"))
+        goButton.pack(side="left", padx=1)
         
         self._validateInput()
     

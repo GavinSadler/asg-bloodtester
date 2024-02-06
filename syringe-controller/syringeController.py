@@ -17,14 +17,26 @@ class Syringe():
     def dispense(self, mL: float):
         """ Dispenses a given amount of mL """
         
-        self.motor.setDirection = CLOCKWISE # Clockwise = dispense
-        self.motor.startDelta(mL * 10**(-3) * self._stepsPermL)
+        self.motor.setDirection(CLOCKWISE) # Clockwise = dispense
+        self.motor.startDelta(int(mL * self._stepsPermL))
     
     def retract(self, mL: float):
         """ Retracts a given amount of mL """
         
-        self.motor.setDirection = COUNTER_CLOCKWISE # Counterclockwise = retract
-        self.motor.startDelta(mL * 10**(-3) * self._stepsPermL)
+        self.motor.setDirection(COUNTER_CLOCKWISE) # Counterclockwise = retract
+        self.motor.startDelta(int(mL * self._stepsPermL))
+    
+    def dispenseContinuous(self):
+        """ Dispenses continuously until stopped """
+        
+        self.motor.setDirection(CLOCKWISE) # Clockwise = dispense
+        self.motor.start()
+
+    def retractContinuous(self):
+        """ Retracts continuously until stopped """
+        
+        self.motor.setDirection(COUNTER_CLOCKWISE) # Counterclockwise = retract
+        self.motor.start()
     
     def setDispenseSpeed(self, mLperMin: float):
         """ Sets the dispense speed in mL per minute """
