@@ -3,11 +3,11 @@ from flask import Flask, request
 
 import constants
 import dummyData
-import syringeController
-import motorController
+# import syringeController
+# import motorController
 
-motor = motorController.MotorController()
-syringe = syringeController.Syringe(motor, constants.STEPS_PER_mL)
+# motor = motorController.MotorController()
+# syringe = syringeController.Syringe(motor, constants.STEPS_PER_mL)
 
 app = Flask(__name__)
 
@@ -101,7 +101,7 @@ def channelData():
     except ValueError:
         return f"Error, could not parse integer from input parameter(s).", 500
     
-    if (request.args.get('debug') == "true"):
+    if request.args.get('debug') == "true" and id == 600 and timestamp_min == 0 and timestamp_nth == 1 and device == 0 and well == 0:
         return dummyData.CHANNELDATA_PHP_RESPONSE
     
     # TODO: Call Discovery Q's endpoint and return data back to caller
@@ -126,7 +126,7 @@ def mysql2json():
     except ValueError:
         return f"Error, could not parse integer from input parameter(s).", 500
 
-    if (request.args.get('debug') == "true"):
+    if request.args.get('debug') == "true" and database == "View" and table == "temperature_recent":
         return dummyData.MYSQL2JSON_PHP_RESPONSE
     
     # TODO: Call Discovery Q's endpoint and return data back to caller
