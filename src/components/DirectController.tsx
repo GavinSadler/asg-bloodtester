@@ -1,4 +1,4 @@
-import { dispenseContinuous, retractContinuous, stop } from "../motorController"
+import { dispenseContinuous, retractContinuous, stop } from "../endpoints"
 
 export default function DirectControl() {
 

@@ -1,5 +1,6 @@
 
 from flask import Flask, request
+from flask_cors import CORS
 
 import constants
 import dummyData
@@ -10,6 +11,7 @@ import dummyData
 # syringe = syringeController.Syringe(motor, constants.STEPS_PER_mL)
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route("/")
 def root():
@@ -101,6 +103,7 @@ def channelData():
     except ValueError:
         return f"Error, could not parse integer from input parameter(s).", 500
     
+    print(id, timestamp_min, timestamp_nth, device, well)
     if request.args.get('debug') == "true" and id == 600 and timestamp_min == 0 and timestamp_nth == 1 and device == 0 and well == 0:
         return dummyData.CHANNELDATA_PHP_RESPONSE
     

@@ -3,23 +3,27 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "remoteMachine": "10.248.52.178",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deployInterface": "yarn build && ssh pi@10.228.65.226 'rm -rf ~/interface' && scp -r ./dist pi@10.228.65.226:~/interface",
-    "deployController": "ssh pi@10.228.65.226 'rm -rf ~/syringe-controller' && scp -r ./syringe-controller pi@10.228.65.226:~/syringe-controller",
-    "deploy": "yarn deployInterface && yarn deployController",
-    "remoteRun": "ssh -t pi@10.228.65.226 \"cd ~/interface && python3 -m http.server\" ",
-    "remoteDeployRun": "yarn remoteDeploy && yarn remoteRun"
+    "deploy": "yarn build && ssh pi@%npm_package_remoteMachine% 'rm -rf ~/interface' && scp -r ./dist pi@%npm_package_remoteMachine%:~/interface",
+    "deployController": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/syringe-controller' && scp -r ./syringe-controller pi@%npm_package_remoteMachine%:~/syringe-controller",
+    "deployAll": "yarn deployInterface && yarn deployController"
   },
   "dependencies": {
+    "plotly.js": "^2.29.0",
     "preact": "^10.19.3",
     "preact-compat": "^3.19.0",
+    "react-plotly": "^1.0.0",
+    "react-plotly.js": "^2.6.0",
     "react-range": "^1.8.14"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.7.0",
+    "@types/plotly.js": "^2.29.0",
+    "@types/react-plotly.js": "^2.6.3",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   }

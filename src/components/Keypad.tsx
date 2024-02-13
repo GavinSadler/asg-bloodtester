@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import { dispense } from "../motorController";
+import { dispense } from "../endpoints";
 
 const keySymbols = [
     '7', '8', '9',
@@ -12,7 +12,6 @@ let createButtons = (onClickCallback: (value: string) => void) => {
     let elements = [];
 
     for (const k of keySymbols) {
-        console.log(k)
         elements.push(
             <button
                 onClick={() => onClickCallback(k)}

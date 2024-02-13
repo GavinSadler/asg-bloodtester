@@ -1,7 +1,7 @@
 
 import { useState } from 'preact/hooks';
 import { Range, Direction, getTrackBackground } from 'react-range';
-import { setDispenseSpeed } from '../motorController';
+import { setDispenseSpeed } from '../endpoints';
 
 const STEP = 0.1;
 const MIN = 0.1;

@@ -8,17 +8,12 @@ import SpeedController from "./components/SpeedController";
 export function App() {
   return (
     <div
-      style={{
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between"
-      }}
+      className={"main-container"}
     >
       <SpeedController />
       <div
         style={{
-          height: "100%",
+          height: "400px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-around",
