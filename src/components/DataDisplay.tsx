@@ -3,9 +3,6 @@ import { useEffect, useState } from 'preact/hooks';
 import Plot from 'react-plotly.js';
 import { getLastAcquisitionInformation, getChannelData, getRecentTemperatureData } from "../endpoints.ts";
 
-const WIDTH = 600;
-const HEIGHT = 600;
-
 export default function DataDisplay() {
 
     let [graphData, setGraphData] = useState({ timestamp: [] as number[], frequency: [] as number[], phase: [] as number[], resistance: [] as number[] })
@@ -56,8 +53,8 @@ export default function DataDisplay() {
                 alignItems: "center",
                 backgroundColor: "#cccccc",
                 borderRadius: "10px",
-                width: WIDTH + "px",
-                height: HEIGHT + "px"
+                // width: WIDTH + "px",
+                // height: HEIGHT + "px"
             }}
         >
             <Plot
@@ -68,8 +65,7 @@ export default function DataDisplay() {
                         xaxis: 'x1',
                         yaxis: 'y1',
                         mode: 'markers',
-                        type: 'scatter',
-                        text: 'Resistance'
+                        type: 'scatter'
                     },
                     {
                         y: graphData.frequency,
@@ -77,8 +73,7 @@ export default function DataDisplay() {
                         xaxis: 'x2',
                         yaxis: 'y2',
                         mode: 'markers',
-                        type: 'scatter',
-                        text: 'Frequency'
+                        type: 'scatter'
                     },
                     {
                         y: graphData.phase,
@@ -86,8 +81,7 @@ export default function DataDisplay() {
                         xaxis: 'x3',
                         yaxis: 'y3',
                         mode: 'markers',
-                        type: 'scatter',
-                        text: 'Phase'
+                        type: 'scatter'
                     },
                     {
                         y: temperatureData.temperature,
@@ -95,19 +89,26 @@ export default function DataDisplay() {
                         xaxis: 'x4',
                         yaxis: 'y4',
                         mode: 'markers',
-                        type: 'scatter',
-                        text: 'Phase'
+                        type: 'scatter'
                     }
                 ]}
                 layout={{
-                    width: WIDTH - 10,
-                    height: HEIGHT - 10,
                     title: 'Discovery-Q Data',
+                    height: 600,
+                    showlegend: false,
                     grid: {
                         rows: 4,
                         columns: 1,
                         pattern: 'independent'
-                    }
+                    },
+                    yaxis: {title: 'Resistance'},
+                    yaxis2: {title: 'Frequency'},
+                    yaxis3: {title: 'Phase'},
+                    yaxis4: {title: 'Temperature'},
+                    xaxis4: {title: 'Time'}
+                }}
+                config={{
+                    responsive: true
                 }}
             />
         </div>
