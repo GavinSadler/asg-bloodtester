@@ -40,17 +40,19 @@ def networkinfo():
     plat = platform.platform().lower()
 
     if "windows" in plat:
-        return {"output" : subprocess.check_output(["ipconfig"])}
+        return {"output": subprocess.check_output(["ipconfig"])}
     elif "linux" in plat:
-        return {"output" : subprocess.check_output(["nmcli"])}
+        return {"output": subprocess.check_output(["nmcli"])}
 
-    return {"error": "unable to grab network information, error parsing platform information"}, 500
+    return {
+        "error": "unable to grab network information, error parsing platform information"
+    }, 500
 
 
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
 
-    #Overwrite settings if it is a post request
+    # Overwrite settings if it is a post request
     if request.method == "POST":
 
         jsonData: dict = request.get_json()
@@ -59,10 +61,11 @@ def settings():
 
     return Settings.getAllSettings()
 
+
 @app.route("/resetSettings")
 def resetSettings():
     Settings.resetSettings()
-    
+
     return {}
 
 
@@ -81,11 +84,13 @@ def dispense():
         return {"error": f"could not parse float from argument amount ({amount})"}, 400
 
     if amount < 0:
-        return {"error": f"argument amount was negative ({amount}) or not supplied"}, 400
+        return {
+            "error": f"argument amount was negative ({amount}) or not supplied"
+        }, 400
 
     syringe.dispense(amount)
 
-    return {"dispenseAmount": amount, "unit" : "mL"}
+    return {"dispenseAmount": amount, "unit": "mL"}
 
 
 @app.route("/retract")
@@ -98,26 +103,32 @@ def retract():
         return {"error": f"could not parse float from argument amount ({amount})"}, 400
 
     if amount < 0:
-        return {"error": f"argument amount was negative ({amount}) or not supplied"}, 400
+        return {
+            "error": f"argument amount was negative ({amount}) or not supplied"
+        }, 400
 
     syringe.retract(amount)
 
-    return {"retractAmount": amount, "unit" : "mL"}
+    return {"retractAmount": amount, "unit": "mL"}
+
 
 @app.route("/dispenseContinuous")
 def dispenseContinuous():
     syringe.dispenseContinuous()
     return {}
 
+
 @app.route("/retractContinuous")
 def retractContinuous():
     syringe.retractContinuous()
     return {}
 
+
 @app.route("/stop")
 def stop():
     motor.stop()
     return {}
+
 
 @app.route("/setDispenseSpeed")
 def setDispenseSpeed():
@@ -135,9 +146,10 @@ def setDispenseSpeed():
 
     return {"dispenseSpeed": speed}
 
+
 @app.route("/getSteps")
 def getSteps():
-    return {"steps" : motor.getSteps()}
+    return {"steps": motor.getSteps()}
 
 
 # =====================
@@ -145,37 +157,40 @@ def getSteps():
 # =====================
 
 
-@app.route("/php/DAQControl.php")
-def DAQControl():
-    # TODO: Call Discovery Q's endpoint and return data back to caller
-    return "Not yet implemented", 501
+@app.route("/discoveryq/", defaults={"subpath": ""}, methods=["GET", "POST"])
+@app.route("/discoveryq/<path:subpath>", methods=["GET", "POST"])
+def forwaredRequest(subpath):
 
+    # Constrcut the new proxied URL
+    discoveryQHostname = Settings.getSetting("discovery_q_hostname")
+    proxyUrl = request.url.replace(request.host, discoveryQHostname).replace("/discoveryq", "")
 
-# TODO: Investigate direct access to the DB instead of through HTTP enpoint
-@app.route("/php/mysql2json.php")
-def mysql2json():
-    database = ""
-    table = ""
+    # ref. https://stackoverflow.com/a/36601467/248616
+    proxiedResponse = requests.request(
+        method=request.method,
+        url=proxyUrl,
+        headers={
+            k: v for k, v in request.headers if k.lower() != "host"
+        },  # exclude 'host' header
+        data=request.get_data(),
+        cookies=request.cookies,
+        allow_redirects=False,
+    )
 
-    try:
-        database = str(request.args.get("database"))
-        table = str(request.args.get("table"))
-    except TypeError:
-        return f"Error, missing input parameter(s).", 500
-    except ValueError:
-        return f"Error, could not parse integer from input parameter(s).", 500
+    # Exlcude some keys in response
+    # NOTE we here exclude all "hop-by-hop headers" defined by RFC 2616 section 13.5.1 ref. https://www.rfc-editor.org/rfc/rfc2616#section-13.5.1
+    excluded_headers = [
+        "content-encoding",
+        "content-length",
+        "transfer-encoding",
+        "connection",
+    ]  
+    headers = [
+        (k, v) for k, v in proxiedResponse.raw.headers.items() if k.lower() not in excluded_headers
+    ]
 
-    if (
-        request.args.get("debug") == "true"
-        and database == "View"
-        and table == "temperature_recent"
-    ):
-        return DummyData.MYSQL2JSON_PHP_RESPONSE
-
-    res = requests.get(Constants.DISCOVERY_NAME + request.full_path)
-
-    return res.content, res.status_code, res.headers.items()
-
+    response = Response(proxiedResponse.content, proxiedResponse.status_code, headers)
+    return response
 
 
 if __name__ == "__main__":
