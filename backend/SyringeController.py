@@ -1,30 +1,39 @@
 
 from MotorController import *
+import math
+
+MICROSTEPS_PER_M = 4063894.74
 
 class Syringe():
     
-    def __init__(self, motor: MotorController, stepsPermL: float):
+    def __init__(self, motor: MotorController, diameter_mm: float):
         """ Controls a syringe
 
         Args:
             motor (MotorController): The motor that controls the syringe assembly
-            stepsPermL (float): The dispense rate of the syringe in steps of the motor per mL
+            diameter_mm (float): The diameter of the syringe in millimeters
         """
         
         self.motor = motor
-        self._stepsPermL = stepsPermL
+        
+        # Diameter of the syringe's pump surface
+        self._diameter = diameter_mm * 10**(-3)
+        
+        # Calculate the area of the syringe's pump surface
+        self._area = (self._diameter / 2.0)**2 * math.pi
+        
     
     def dispense(self, mL: float):
         """ Dispenses a given amount of mL """
         
         self.motor.setDirection(CLOCKWISE) # Clockwise = dispense
-        self.motor.startDelta(int(mL * self._stepsPermL))
+        self.motor.startDelta(self.getStepsFrommL(mL))
     
     def retract(self, mL: float):
         """ Retracts a given amount of mL """
         
         self.motor.setDirection(COUNTER_CLOCKWISE) # Counterclockwise = retract
-        self.motor.startDelta(int(mL * self._stepsPermL))
+        self.motor.startDelta(self.getStepsFrommL(mL))
     
     def dispenseContinuous(self):
         """ Dispenses continuously until stopped """
@@ -38,11 +47,24 @@ class Syringe():
         self.motor.setDirection(COUNTER_CLOCKWISE) # Counterclockwise = retract
         self.motor.start()
     
-    def setDispenseSpeed(self, mLperMin: float):
-        """ Sets the dispense speed in mL per minute """
-        # x mL / min * k steps / mL * min / 60 sec
-        self.motor.setStepSpeed(mLperMin * self._stepsPermL / 60)
+    def setDispenseSpeed(self, uLperMin: float):
+        """ Sets the dispense speed in uL per minute """
+        
+        LperMin = uLperMin * 10**(-6)
+        LperSec = LperMin / 60
+        m3perSec = LperSec * 0.001
+        mperSec = m3perSec / self._area
+        microstepsPerSec = mperSec * MICROSTEPS_PER_M
+        
+        self.motor.setStepSpeed(microstepsPerSec)
     
     def getStepsFrommL(self, mL: float):
-        """ Returns the number of motor steps from the given amount of mL """
-        return self._stepsPermL * mL
+        """ Returns the number of motor microsteps from the given amount of liquid in liters """
+        
+        l = mL * 10**(-3)
+        m3 = l * 10**(-3)
+        m = m3 / self._area
+        microsteps = m * MICROSTEPS_PER_M
+        
+        return int(microsteps) 
+    
