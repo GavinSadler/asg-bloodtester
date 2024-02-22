@@ -6,14 +6,12 @@ import json
 SETTINGS_PATH = "./settings.json"
 
 DEFAULT_SETTINGS = {
-    "discovery_q_hostname" : "ivmx-discovery3.local",
-    "steps_per_ml" : 32258.06452,
-    "syringe_diameter" : 0,
-    "network_mode" : "Eduroam",
-    "max_flow_rate" : 150.0,
-    "default_flow_rate" : 100.0
+    "syringeDiameter" : 0,
+    "defaultFlowRate" : 50.0,
+    "maxFlowRate" : 150.0,
+    "discoveryqHostname" : "ivmx-discovery3.local",
+    "networkMode" : "Eduroam"
 }
-
 
 # ========================
 # Function Implementations

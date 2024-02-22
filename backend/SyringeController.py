@@ -55,11 +55,11 @@ class Syringe():
         m3perSec = LperSec * 0.001
         mperSec = m3perSec / self._area
         microstepsPerSec = mperSec * MICROSTEPS_PER_M
-        
+                
         self.motor.setStepSpeed(microstepsPerSec)
     
     def getStepsFrommL(self, mL: float):
-        """ Returns the number of motor microsteps from the given amount of liquid in liters """
+        """ Returns the number of motor microsteps from the given amount of liquid in milliliters """
         
         l = mL * 10**(-3)
         m3 = l * 10**(-3)

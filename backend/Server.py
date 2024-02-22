@@ -1,13 +1,10 @@
-import json
-import os
+
 import platform
 import subprocess
-
 import Constants
-import DummyData
 import requests
 import Settings
-from flask import Flask, Response, jsonify, request
+from flask import Flask, Response, request
 from flask_cors import CORS
 
 # If we are testing locally, these will not be able to import
@@ -16,7 +13,7 @@ try:
     import SyringeController
 
     motor = MotorController.MotorController()
-    syringe = SyringeController.Syringe(motor, Constants.STEPS_PER_mL)
+    syringe = SyringeController.Syringe(motor, 21)
 except:
     print("Unable to load motorController and/or syringeController")
 
@@ -40,9 +37,9 @@ def networkinfo():
     plat = platform.platform().lower()
 
     if "windows" in plat:
-        return {"output": subprocess.check_output(["ipconfig"])}
+        return {"output": subprocess.check_output(["ipconfig"]).decode()}
     elif "linux" in plat:
-        return {"output": subprocess.check_output(["nmcli"])}
+        return {"output": subprocess.check_output(["nmcli"]).decode()}
 
     return {
         "error": "unable to grab network information, error parsing platform information"
@@ -54,10 +51,7 @@ def settings():
 
     # Overwrite settings if it is a post request
     if request.method == "POST":
-
-        jsonData: dict = request.get_json()
-
-        Settings.setAllSettings(jsonData)
+        Settings.setAllSettings(request.get_json())
 
     return Settings.getAllSettings()
 
@@ -156,7 +150,7 @@ def getSteps():
 # Discovery Q proxy
 # =====================
 
-
+# See https://stackoverflow.com/a/36601467 for an explanation of this proxy
 @app.route("/discoveryq/", defaults={"subpath": ""}, methods=["GET", "POST"])
 @app.route("/discoveryq/<path:subpath>", methods=["GET", "POST"])
 def forwaredRequest(subpath):
