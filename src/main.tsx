@@ -1,6 +1,25 @@
-import { render } from 'preact'
-import { App } from './app.tsx'
-import './index.css'
+import { render } from 'preact';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import './index.css';
+import { App } from './pages/app.tsx';
+import { Calibrate } from './pages/calibrate.tsx';
+import { Settings } from './pages/settings.tsx';
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App/>,
+    },
+    {
+        path: "/calibrate/",
+        element: <Calibrate />
+    },
+    {
+        path: "/settings/",
+        element: <Settings />
+    }
+
+]);
 
 
-render(<App />, document.getElementById('app')!)
+render(<RouterProvider router={router} />, document.getElementById('app')!)

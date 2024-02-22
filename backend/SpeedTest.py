@@ -1,6 +1,6 @@
 
-from motorController import *
-from syringeController import Syringe
+from MotorController import *
+from SyringeController import Syringe
 
 import RPi.GPIO
 RPi.GPIO.setwarnings(False)

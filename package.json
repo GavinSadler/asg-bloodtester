@@ -8,9 +8,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "yarn build && ssh pi@%npm_package_remoteMachine% 'rm -rf ~/interface' && scp -r ./dist pi@%npm_package_remoteMachine%:~/interface",
-    "deployController": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/syringe-controller' && scp -r ./syringe-controller pi@%npm_package_remoteMachine%:~/syringe-controller",
-    "deployAll": "yarn deployInterface && yarn deployController"
+    "backend": "cd ./backend && python server.py",
+    "ssh": "ssh pi@%npm_package_remoteMachine% -L 5000:127.0.0.1:5000 -L 80:127.0.0.1:80",
+    "deployFrontend": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/frontend' && scp -r ./dist pi@%npm_package_remoteMachine%:~/frontend && ssh pi@%npm_package_remoteMachine% './scripts/reload_fullpageos_txt'",
+    "deployBackend": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/backend' && rm -rf ./backend/__pycache__ && scp -r ./backend pi@%npm_package_remoteMachine%:~/backend && ssh pi@%npm_package_remoteMachine% 'systemctl --user restart backend.service'",
+    "deploy": "yarn deployFrontend && yarn deployBackend"
   },
   "dependencies": {
     "plotly.js": "^2.29.0",
@@ -18,7 +20,8 @@
     "preact-compat": "^3.19.0",
     "react-plotly": "^1.0.0",
     "react-plotly.js": "^2.6.0",
-    "react-range": "^1.8.14"
+    "react-range": "^1.8.14",
+    "react-router-dom": "^6.22.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.7.0",

@@ -9,9 +9,9 @@ export default function DataDisplay() {
     let [temperatureData, setTemperatureData] = useState({ timestamp: [] as number[], temperature: [] as number[] })
 
     useEffect(() => {
-        getLastAcquisitionInformation(true)
+        getLastAcquisitionInformation()
             .then(acquisitionInfo => {
-                getChannelData(Number(acquisitionInfo.id), 0, 1, 0, 0, true)
+                getChannelData(Number(acquisitionInfo.id), 0, 1, 0, 0)
                     .then(data => {
 
                         let timestamp: number[] = [];
@@ -30,7 +30,7 @@ export default function DataDisplay() {
                     })
             })
 
-        getRecentTemperatureData(true)
+        getRecentTemperatureData()
             .then(temperatureData => {
 
                 let timestamp: number[] = [];

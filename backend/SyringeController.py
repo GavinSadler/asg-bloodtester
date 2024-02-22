@@ -1,5 +1,5 @@
 
-from motorController import *
+from MotorController import *
 
 class Syringe():
     

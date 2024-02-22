@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import { dispense } from "../endpoints";
+import { dispense, retract } from "../endpoints";
 
 const keySymbols = [
     '7', '8', '9',
@@ -62,7 +62,12 @@ export default function Keypad() {
             <button
                 onClick={() => dispense(Number(value))}
             >
-                Start
+                Dispense
+            </button>
+            <button
+                onClick={() => retract(Number(value))}
+            >
+                Retract
             </button>
         </div>
     )
