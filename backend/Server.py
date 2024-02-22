@@ -1,7 +1,6 @@
 
 import platform
 import subprocess
-import Constants
 import requests
 import Settings
 from flask import Flask, Response, request
@@ -59,8 +58,9 @@ def settings():
 @app.route("/resetSettings")
 def resetSettings():
     Settings.resetSettings()
+    print("Test")
 
-    return {}
+    return Settings.getAllSettings()
 
 
 # ============================
@@ -156,8 +156,9 @@ def getSteps():
 def forwaredRequest(subpath):
 
     # Constrcut the new proxied URL
-    discoveryQHostname = Settings.getSetting("discovery_q_hostname")
-    proxyUrl = request.url.replace(request.host, discoveryQHostname).replace("/discoveryq", "")
+    discoveryQHostname = Settings.getSetting("discoveryqHostname")
+    proxyUrl = request.url.replace(request.host, discoveryQHostname)
+    proxyUrl = proxyUrl.replace("/discoveryq", "")
 
     # ref. https://stackoverflow.com/a/36601467/248616
     proxiedResponse = requests.request(
