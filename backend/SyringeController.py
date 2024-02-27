@@ -16,11 +16,9 @@ class Syringe():
         
         self.motor = motor
         
-        # Diameter of the syringe's pump surface
-        self._diameter = diameter_mm * 10**(-3)
+        self.setDiameter(diameter_mm * 10**(-3))
         
-        # Calculate the area of the syringe's pump surface
-        self._area = (self._diameter / 2.0)**2 * math.pi
+        self.setDispenseSpeed(1)
         
     
     def dispense(self, mL: float):
@@ -50,6 +48,9 @@ class Syringe():
     def setDispenseSpeed(self, uLperMin: float):
         """ Sets the dispense speed in uL per minute """
         
+        if self._area == 0:
+            return
+        
         LperMin = uLperMin * 10**(-6)
         LperSec = LperMin / 60
         m3perSec = LperSec * 0.001
@@ -68,3 +69,12 @@ class Syringe():
         
         return int(microsteps) 
     
+
+    def setDiameter(self, newDiameter: float):
+        """ Sets the diameter of the syringe for calibration purposes
+
+        Args:
+            newDiameter (float): The diameter of the syringe in meteres
+        """
+        self._diameter = newDiameter
+        self._area = math.pi * (self._diameter / 2)**2

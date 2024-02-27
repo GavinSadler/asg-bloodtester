@@ -5,8 +5,8 @@ import { setDispenseSpeed } from '../endpoints';
 
 const STEP = 0.1;
 const MIN = 0.1;
-const MAX = 20.0;
-const DEFAULT = 1.0
+const MAX = 150;
+const DEFAULT = 50.0
 
 const HEIGHT = "450px";
 const WIDTH = "36px";
@@ -14,7 +14,7 @@ const WIDTH = "36px";
 let createMarkers = () => {
     let elements = [];
 
-    for (let i = 0; i <= MAX; i += 2)
+    for (let i = 0; i <= MAX; i += 15)
         elements.push(
             <h5
                 style={{
@@ -47,7 +47,7 @@ export default function SpeedController() {
                     writingMode: "vertical-lr"
                 }}
             >
-                Speed (mL/min)
+                Speed (uL/min)
             </h2>
             <Range
                 direction={Direction.Up}

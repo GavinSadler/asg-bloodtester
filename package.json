@@ -11,8 +11,9 @@
     "backend": "cd ./backend && python server.py",
     "ssh": "ssh pi@%npm_package_remoteMachine% -L 5000:127.0.0.1:5000 -L 80:127.0.0.1:80",
     "deployFrontend": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/frontend' && scp -r ./dist pi@%npm_package_remoteMachine%:~/frontend && ssh pi@%npm_package_remoteMachine% './scripts/reload_fullpageos_txt'",
+    "pushBackend": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/backend' && rm -rf ./backend/__pycache__ && scp -r ./backend pi@%npm_package_remoteMachine%:~/backend",
     "deployBackend": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/backend' && rm -rf ./backend/__pycache__ && scp -r ./backend pi@%npm_package_remoteMachine%:~/backend && ssh pi@%npm_package_remoteMachine% 'systemctl --user restart backend.service'",
-    "deploy": "yarn deployFrontend && yarn deployBackend"
+    "deploy": "yarn build && yarn deployFrontend && yarn deployBackend"
   },
   "dependencies": {
     "plotly.js": "^2.29.0",

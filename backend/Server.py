@@ -12,9 +12,9 @@ try:
     import SyringeController
 
     motor = MotorController.MotorController()
-    syringe = SyringeController.Syringe(motor, 21)
-except:
-    print("Unable to load motorController and/or syringeController")
+    syringe = SyringeController.Syringe(motor, float(Settings.getSetting("syringeDiameter")))
+except Exception as e:
+    print("Unable to load motorController and/or syringeController: ", e)
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -51,6 +51,11 @@ def settings():
     # Overwrite settings if it is a post request
     if request.method == "POST":
         Settings.setAllSettings(request.get_json())
+        
+        # Make sure to apply changes to the SyringeController object
+        syringe.setDiameter(float(Settings.getSetting("syringeDiameter"))*10**(-3))
+        
+        # And apply changes to any network devices
 
     return Settings.getAllSettings()
 

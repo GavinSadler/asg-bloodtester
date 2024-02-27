@@ -18,13 +18,13 @@ export function App() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-around",
-          
+
         }}
       >
         <Keypad />
         <DirectControl />
         <Link to="/settings/">Settings</Link>
-        <Link to="/calibrate/">Calibrate</Link>
+        <Link to="/discoveryq/">DiscoveryQ</Link>
       </div>
       <DataDisplay />
     </div>

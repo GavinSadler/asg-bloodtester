@@ -6,7 +6,7 @@ import json
 SETTINGS_PATH = "./settings.json"
 
 DEFAULT_SETTINGS = {
-    "syringeDiameter" : 0,
+    "syringeDiameter" : 21,
     "defaultFlowRate" : 50.0,
     "maxFlowRate" : 150.0,
     "discoveryqHostname" : "ivmx-discovery3.local",
