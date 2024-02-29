@@ -3,7 +3,10 @@ import os
 import json
 
 # Wherever this file is executed, a settings.json will be created there
-SETTINGS_PATH = "./settings.json"
+# Ideally, this will be put in the home directory
+SETTINGS_FILENAME = "settings.json"
+SETTINGS_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SETTINGS_PATH = os.path.join(SETTINGS_DIRECTORY, SETTINGS_FILENAME)
 
 DEFAULT_SETTINGS = {
     "syringeDiameter" : 21,
@@ -56,3 +59,5 @@ with open(SETTINGS_PATH, "r") as jsonfp:
         json.load(jsonfp)
     except json.JSONDecodeError:
         resetSettings()
+
+print(f"Settings loaded from {SETTINGS_PATH}")
