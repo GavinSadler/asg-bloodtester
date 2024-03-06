@@ -1,5 +1,5 @@
 
-export const toplevel = `${window.location.protocol}//${window.location.hostname}/endpoints`
+export const toplevel = `${window.location.protocol}//${window.location.hostname}:5000`
 
 export interface settings {
     syringeDiameter: number;

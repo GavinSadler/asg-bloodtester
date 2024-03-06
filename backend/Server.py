@@ -19,7 +19,7 @@ try:
 except Exception as e:
     print("Unable to load motorController and/or syringeController: ", e)
 
-app = Flask(__name__, static_folder="../dist", static_url_path="/")
+app = Flask(__name__)
 cors = CORS(app)
 
 
@@ -29,12 +29,11 @@ cors = CORS(app)
 
 
 @app.route("/")
-@app.route("/settings")
 def root():
-    return send_from_directory("../dist", 'index.html')
+    return "Backend running"
 
 
-@app.route("/endpoints/networkinfo")
+@app.route("/networkinfo")
 def networkinfo():
 
     plat = platform.platform().lower()
@@ -49,7 +48,7 @@ def networkinfo():
     }, 500
 
 
-@app.route("/endpoints/settings", methods=["GET", "POST"])
+@app.route("/settings", methods=["GET", "POST"])
 def settings():
 
     # Overwrite settings if it is a post request
@@ -64,7 +63,7 @@ def settings():
     return Settings.getAllSettings()
 
 
-@app.route("/endpoints/resetSettings")
+@app.route("/resetSettings")
 def resetSettings():
     Settings.resetSettings()
     return Settings.getAllSettings()
@@ -75,7 +74,7 @@ def resetSettings():
 # ============================
 
 
-@app.route("/endpoints/dispense")
+@app.route("/dispense")
 def dispense():
     amount = request.args.get("amount", "-1")
 
@@ -94,7 +93,7 @@ def dispense():
     return {"dispenseAmount": amount, "unit": "mL"}
 
 
-@app.route("/endpoints/retract")
+@app.route("/retract")
 def retract():
     amount = request.args.get("amount", "-1")
 
@@ -113,25 +112,25 @@ def retract():
     return {"retractAmount": amount, "unit": "mL"}
 
 
-@app.route("/endpoints/dispenseContinuous")
+@app.route("/dispenseContinuous")
 def dispenseContinuous():
     syringe.dispenseContinuous()
     return {}
 
 
-@app.route("/endpoints/retractContinuous")
+@app.route("/retractContinuous")
 def retractContinuous():
     syringe.retractContinuous()
     return {}
 
 
-@app.route("/endpoints/stop")
+@app.route("/stop")
 def stop():
     motor.stop()
     return {}
 
 
-@app.route("/endpoints/setDispenseSpeed")
+@app.route("/setDispenseSpeed")
 def setDispenseSpeed():
     speed = request.args.get("speed", "-1")
 
@@ -148,7 +147,7 @@ def setDispenseSpeed():
     return {"dispenseSpeed": speed}
 
 
-@app.route("/endpoints/getSteps")
+@app.route("/getSteps")
 def getSteps():
     return {"steps": motor.getSteps()}
 
@@ -203,4 +202,4 @@ if __name__ == "__main__":
     args.add_argument('-d', '--debug', action='store_true', help='Enable debug mode')
     args = args.parse_args()
     
-    app.run(host="0.0.0.0", port=80, debug=args.debug)
+    app.run(host="0.0.0.0", debug=args.debug)
