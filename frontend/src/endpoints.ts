@@ -1,5 +1,5 @@
 
-export const toplevel = `${window.location.protocol}//${window.location.hostname}:5000`
+export const toplevel = `${window.location.protocol}//${window.location.hostname}/endpoints`
 
 export interface settings {
     syringeDiameter: number;
@@ -85,7 +85,7 @@ export function setSettings(newSettings: settings) {
 // =====================
 
 export function getLastAcquisitionInformation() {
-    return fetch(`${toplevel}/discoveryq/php/LastAcquisitionID.php`)
+    return fetch(`${toplevel}/discoveryqproxy/php/LastAcquisitionID.php`)
         .then(res => res.json())
         .then(res => {
             return res as { id: string; sweep_mode: string; }
@@ -93,7 +93,7 @@ export function getLastAcquisitionInformation() {
 }
 
 export function getChannelData(id: number, timestamp_min: number, timestamp_nth: number, device: number, well: number) {
-    return fetch(`${toplevel}/discoveryq/php/ChannelData.php?id=${id}&timestamp_min=${timestamp_min}&timestamp_nth=${timestamp_nth}&device=${device}&well=${well}`)
+    return fetch(`${toplevel}/discoveryqproxy/php/ChannelData.php?id=${id}&timestamp_min=${timestamp_min}&timestamp_nth=${timestamp_nth}&device=${device}&well=${well}`)
         .then(res => res.json())
         .then(res => {
             return res as [{ "timestamp": number, "frequency": number, "resistance": number, "phase": number }]
@@ -101,7 +101,7 @@ export function getChannelData(id: number, timestamp_min: number, timestamp_nth:
 }
 
 export function getRecentTemperatureData() {
-    return fetch(`${toplevel}/discoveryq/php/mysql2json.php?database=View&table=temperature_recent`)
+    return fetch(`${toplevel}/discoveryqproxy/php/mysql2json.php?database=View&table=temperature_recent`)
         .then(res => res.json())
         .then(res => {
             return res as [{ "timestamp": string, "device": string, "temperature": string }]

@@ -51,6 +51,7 @@ def resetSettings():
 
 # Create settings.json if it doesn't already exist
 if not os.path.exists(SETTINGS_PATH):
+    print("No settings file found, generating now")
     resetSettings()
 
 # Overwrite settings.json if it is malformed
@@ -58,6 +59,7 @@ with open(SETTINGS_PATH, "r") as jsonfp:
     try:
         json.load(jsonfp)
     except json.JSONDecodeError:
+        print("Settings file malformed, regenerating")
         resetSettings()
 
 print(f"Settings loaded from {SETTINGS_PATH}")

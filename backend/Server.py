@@ -4,7 +4,7 @@ import subprocess
 
 import requests
 import Settings
-from flask import Flask, Response, request
+from flask import Flask, Response, request, send_from_directory
 from flask_cors import CORS
 
 # If we are testing locally, these will not be able to import
@@ -22,17 +22,19 @@ except Exception as e:
 app = Flask(__name__, static_folder="../dist", static_url_path="/")
 cors = CORS(app)
 
+
 # =================
 # General endpoints
 # =================
 
 
 @app.route("/")
+@app.route("/settings")
 def root():
-    return "Backend running"
+    return send_from_directory("../dist", 'index.html')
 
 
-@app.route("/networkinfo")
+@app.route("/endpoints/networkinfo")
 def networkinfo():
 
     plat = platform.platform().lower()
@@ -47,7 +49,7 @@ def networkinfo():
     }, 500
 
 
-@app.route("/settings", methods=["GET", "POST"])
+@app.route("/endpoints/settings", methods=["GET", "POST"])
 def settings():
 
     # Overwrite settings if it is a post request
@@ -62,11 +64,9 @@ def settings():
     return Settings.getAllSettings()
 
 
-@app.route("/resetSettings")
+@app.route("/endpoints/resetSettings")
 def resetSettings():
     Settings.resetSettings()
-    print("Test")
-
     return Settings.getAllSettings()
 
 
@@ -75,7 +75,7 @@ def resetSettings():
 # ============================
 
 
-@app.route("/dispense")
+@app.route("/endpoints/dispense")
 def dispense():
     amount = request.args.get("amount", "-1")
 
@@ -94,7 +94,7 @@ def dispense():
     return {"dispenseAmount": amount, "unit": "mL"}
 
 
-@app.route("/retract")
+@app.route("/endpoints/retract")
 def retract():
     amount = request.args.get("amount", "-1")
 
@@ -113,25 +113,25 @@ def retract():
     return {"retractAmount": amount, "unit": "mL"}
 
 
-@app.route("/dispenseContinuous")
+@app.route("/endpoints/dispenseContinuous")
 def dispenseContinuous():
     syringe.dispenseContinuous()
     return {}
 
 
-@app.route("/retractContinuous")
+@app.route("/endpoints/retractContinuous")
 def retractContinuous():
     syringe.retractContinuous()
     return {}
 
 
-@app.route("/stop")
+@app.route("/endpoints/stop")
 def stop():
     motor.stop()
     return {}
 
 
-@app.route("/setDispenseSpeed")
+@app.route("/endpoints/setDispenseSpeed")
 def setDispenseSpeed():
     speed = request.args.get("speed", "-1")
 
@@ -148,7 +148,7 @@ def setDispenseSpeed():
     return {"dispenseSpeed": speed}
 
 
-@app.route("/getSteps")
+@app.route("/endpoints/getSteps")
 def getSteps():
     return {"steps": motor.getSteps()}
 
@@ -159,14 +159,14 @@ def getSteps():
 
 
 # See https://stackoverflow.com/a/36601467 for an explanation of this proxy
-@app.route("/discoveryq/", defaults={"subpath": ""}, methods=["GET", "POST"])
-@app.route("/discoveryq/<path:subpath>", methods=["GET", "POST"])
+@app.route("/discoveryqproxy/", defaults={"subpath": ""}, methods=["GET", "POST"])
+@app.route("/discoveryqproxy/<path:subpath>", methods=["GET", "POST"])
 def forwaredRequest(subpath):
 
     # Constrcut the new proxied URL
     discoveryQHostname = Settings.getSetting("discoveryqHostname")
     proxyUrl = request.url.replace(request.host, discoveryQHostname)
-    proxyUrl = proxyUrl.replace("/discoveryq", "")
+    proxyUrl = proxyUrl.replace("/discoveryqproxy", "")
 
     # ref. https://stackoverflow.com/a/36601467/248616
     proxiedResponse = requests.request(
