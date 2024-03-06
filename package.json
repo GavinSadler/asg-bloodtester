@@ -5,7 +5,7 @@
   "type": "module",
   "remoteMachine": "10.248.52.19",
   "scripts": {
-    "run": "vite --cors ./frontend",
+    "dev": "vite --cors ./frontend",
     "build": "rm -rf ./dist && tsc && vite build ./frontend --outDir ../dist",
     "preview": "vite preview",
     "deployFrontend": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/frontend' && scp -r ./dist pi@%npm_package_remoteMachine%:~/frontend && ssh pi@%npm_package_remoteMachine% './scripts/reload_fullpageos_txt'",
