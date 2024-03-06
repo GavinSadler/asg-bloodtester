@@ -11,7 +11,13 @@ export function App() {
     <div
       className={"main-container"}
     >
-      <SpeedController />
+      <div>
+        <input className="" type="number" />
+      </div>
+      <div>
+        <input className="" type="number" />
+      </div>
+      {/* <SpeedController />
       <div
         style={{
           height: "400px",
@@ -26,7 +32,7 @@ export function App() {
         <Link to="/settings/">Settings</Link>
         <Link to="/discoveryq/">DiscoveryQ</Link>
       </div>
-      <DataDisplay />
+      <DataDisplay /> */}
     </div>
   )
 }
