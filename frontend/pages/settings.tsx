@@ -1,8 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { NetworkStatus } from "../components/NetworkStatus";
-import { getSettings, setSettings, } from "../endpoints";
-import { settings } from "../settingsContext";
+import { getSettings, setSettings, settings } from "../endpoints";
 import { useEffect, useState } from "preact/hooks";
 
 export function Settings() {
