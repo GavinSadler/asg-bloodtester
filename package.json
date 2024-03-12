@@ -16,17 +16,12 @@
     "ssh": "ssh pi@%npm_package_remoteMachine% -L 5000:127.0.0.1:5000 -L 80:127.0.0.1:80"
   },
   "dependencies": {
-    "plotly.js": "^2.30.0",
     "preact": "^10.19.3",
     "preact-compat": "^3.19.0",
-    "react-plotly.js": "^2.6.0",
-    "react-range": "^1.8.14",
     "react-router-dom": "^6.22.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.7.0",
-    "@types/plotly.js": "^2.29.0",
-    "@types/react-plotly.js": "^2.6.3",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   }
