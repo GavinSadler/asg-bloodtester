@@ -1,38 +1,44 @@
 
 import { Link } from "react-router-dom";
-import DataDisplay from "../components/DataDisplay";
 import DirectControl from "../components/DirectController";
-import Keypad from "../components/Keypad";
-import SpeedController from "../components/SpeedController";
-
+import DispenseInput from "../components/DispenseInput";
+import SpeedInput from "../components/SpeedInput";
 
 export function App() {
   return (
     <div
       className={"main-container"}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        // flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "space-evenly"
+      }}
     >
-      <div>
-        <input className="" type="number" />
-      </div>
-      <div>
-        <input className="" type="number" />
-      </div>
-      {/* <SpeedController />
-      <div
-        style={{
-          height: "400px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-
-        }}
-      >
-        <Keypad />
+      <div style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "space-evenly"
+      }}>
+        <SpeedInput />
+        <DispenseInput />
         <DirectControl />
-        <Link to="/settings/">Settings</Link>
-        <Link to="/discoveryq/">DiscoveryQ</Link>
       </div>
-      <DataDisplay /> */}
+      <div
+        className="links"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center"
+      }}>
+        <Link to="/settings/">Settings</Link>
+        <Link to="/discoveryq/">Discovery Q Homepage</Link>
+      </div>
     </div>
   )
 }

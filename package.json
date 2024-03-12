@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "remoteMachine": "10.248.52.19",
+  "remoteMachine": "10.248.62.46",
   "scripts": {
     "dev": "vite --cors",
-    "build": "rm -rf ./dist && tsc && vite build --outDir ../dist",
+    "build": "tsc && vite build --outDir ./dist --emptyOutDir",
     "preview": "vite preview",
     "deployFrontend": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/frontend' && scp -r ./dist pi@%npm_package_remoteMachine%:~/frontend && ssh pi@%npm_package_remoteMachine% './scripts/reload_fullpageos_txt'",
     "runBackend": "cd ./backend && python Server.py --debug",

@@ -3,24 +3,32 @@ import { dispenseContinuous, retractContinuous, stop } from "../endpoints"
 export default function DirectControl() {
 
     return (
-        <div>
-            <button
-                onMouseDown={retractContinuous}
-                onMouseUp={retractContinuous}
-            >
-                ◀
-            </button>
-            <button
-                onClick={stop}
-            >
-                Stop
-            </button>
-            <button
-                onMouseDown={dispenseContinuous}
-                onMouseUp={dispenseContinuous}
-            >
-                ▶
-            </button>
+        <div className="control-options">
+            <h2>Direct Control</h2>
+            <div>
+                <button
+                    onTouchStart={(e) => { e.preventDefault(); retractContinuous() }}
+                    onTouchEnd={(e) => { e.preventDefault(); stop() }}
+                    onMouseDown={(e) => { e.preventDefault(); retractContinuous() }}
+                    onMouseUp={(e) => { e.preventDefault(); stop() }}
+                >
+                    ◀
+                </button>
+                <button
+                    onTouchStart={(e) => {e.preventDefault(); stop()}}
+                    onMouseDown={(e) => {e.preventDefault(); stop()}}
+                >
+                    Stop
+                </button>
+                <button
+                    onTouchStart={(e) => { e.preventDefault(); dispenseContinuous() }}
+                    onTouchEnd={(e) => { e.preventDefault(); stop() }}
+                    onMouseDown={(e) => { e.preventDefault(); dispenseContinuous() }}
+                    onMouseUp={(e) => { e.preventDefault(); stop() }}
+                >
+                    ▶
+                </button>
+            </div>
         </div>
     )
 
