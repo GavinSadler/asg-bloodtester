@@ -3,10 +3,12 @@ export const toplevel = `${window.location.protocol}//${window.location.hostname
 
 export interface settings {
     syringeDiameter: number;
-    maxFlowRate: number;
+    stepsPerMm: number;
+    showSteps: boolean;
     defaultFlowRate: number;
+    directControlSpeed: number;
     discoveryqHostname: string;
-    networkMode: string;
+    colorTheme: string;
 }
 
 export function networkinfo(): Promise<string> {
@@ -44,16 +46,10 @@ export function setDispenseSpeed(speed: number) {
     return fetch(toplevel + "/setDispenseSpeed?speed=" + String(speed))
 }
 
-export function getSteps(): Promise<{ steps: number; }> {
-    return new Promise((ret, rej) => {
-        fetch(`${toplevel}/getSteps`)
-            .then(res => {
-                res.json()
-                    .then(ret)
-                    .catch(rej)
-            })
-            .catch(rej)
-    })
+export function getSteps() {
+    return fetch(`${toplevel}/getSteps`)
+        .then(res => res.text())
+        .then(res => Number(res))
 }
 
 export function getSettings() {

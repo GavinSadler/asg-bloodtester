@@ -1,7 +1,8 @@
+
 import { dispenseContinuous, retractContinuous, stop } from "../endpoints"
+import StepCounter from "./StepCounter";
 
-export default function DirectControl() {
-
+export default function DirectControl({showSteps = false}) {
     return (
         <div className="control-options">
             <h2>Direct Control</h2>
@@ -29,6 +30,7 @@ export default function DirectControl() {
                     ▶
                 </button>
             </div>
+            {showSteps ? <StepCounter /> : null}
         </div>
     )
 

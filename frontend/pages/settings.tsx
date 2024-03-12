@@ -1,7 +1,8 @@
 
 import { Link } from "react-router-dom";
 import { NetworkStatus } from "../components/NetworkStatus";
-import { getSettings, setSettings, settings, } from "../endpoints";
+import { getSettings, setSettings, } from "../endpoints";
+import { settings } from "../settingsContext";
 import { useEffect, useState } from "preact/hooks";
 
 export function Settings() {
@@ -38,41 +39,42 @@ export function Settings() {
       }}
     >
       <p>Settings page</p>
-      {settingsFetched ?
+      {!settingsFetched ?
+        <h2>Fetching settings</h2>
+        :
         <form method="post" onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column"
-        }}
+          style={{
+            display: "flex",
+            flexDirection: "column"
+          }}
         >
           <label>
             Syringe diameter (mm):
             <input name="syringeDiameter" defaultValue={fetchedSettings.syringeDiameter.toString()} />
           </label>
           <label>
+            Motor calibration value (steps/mm):
+            <input name="stepsPerMm" defaultValue={fetchedSettings.stepsPerMm.toString()} />
+          </label>
+          <label>
             Default flow rate (uL/min):
             <input name="defaultFlowRate" defaultValue={fetchedSettings.defaultFlowRate.toString()} />
           </label>
           <label>
-            Syringe max flow rate (uL/min):
-            <input name="maxFlowRate" defaultValue={fetchedSettings.maxFlowRate.toString()} />
+            Direct control speed (cm/sec):
+            <input name="directControlSpeed" defaultValue={fetchedSettings.directControlSpeed.toString()} />
           </label>
           <label>
             DiscoveryQ Hostname:
             <input name="discoveryqHostname" defaultValue={fetchedSettings.discoveryqHostname} />
           </label>
           <label>
-            Wifi Mode:
-            <select name="wifiMode" defaultValue={fetchedSettings.networkMode}>
-              <option value="Eduroam">Eduroam</option>
-              <option value="Access Point">Access Point</option>
-            </select>
+            Color theme:
+            <input name="discoveryqHostname" defaultValue={fetchedSettings.colorTheme} />
           </label>
 
           <input type="submit" value="Save settings" />
         </form>
-        :
-        <p>Fetching settings</p>
       }
       <NetworkStatus />
       <Link to="/">Back</Link>

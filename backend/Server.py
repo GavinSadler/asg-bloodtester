@@ -147,9 +147,27 @@ def setDispenseSpeed():
     return {"dispenseSpeed": speed}
 
 
+@app.route("/setCarriageSpeed")
+def setCarriageSpeed():
+    speed = request.args.get("speed", "-1")
+
+    try:
+        speed = float(speed)
+    except ValueError:
+        return {"error": f"could not parse float from argument speed ({speed})"}, 400
+
+    if speed <= 0:
+        return {"error": f"argument speed was negative ({speed}) or not supplied"}, 400
+
+    raise NotImplementedError
+    # syringe.setDispenseSpeed(speed)
+
+    # return {"dispenseSpeed": speed}
+
+
 @app.route("/getSteps")
 def getSteps():
-    return {"steps": motor.getSteps()}
+    return str(motor.getSteps())
 
 
 # =====================

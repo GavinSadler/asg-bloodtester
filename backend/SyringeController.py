@@ -59,6 +59,10 @@ class Syringe():
                 
         self.motor.setStepSpeed(microstepsPerSec)
     
+    def setCarriageSpeed(self, mmPerSecond: float):
+        """ Sets the motor's speed so the syringe carriage moves at a specific speed """
+        raise NotImplementedError
+    
     def getStepsFrommL(self, mL: float):
         """ Returns the number of motor microsteps from the given amount of liquid in milliliters """
         

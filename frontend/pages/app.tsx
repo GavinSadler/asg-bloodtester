@@ -26,7 +26,7 @@ export function App() {
       }}>
         <SpeedInput />
         <DispenseInput />
-        <DirectControl />
+        <DirectControl showSteps={true} />
       </div>
       <div
         className="links"

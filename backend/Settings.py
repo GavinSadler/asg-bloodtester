@@ -10,10 +10,13 @@ SETTINGS_PATH = os.path.join(SETTINGS_DIRECTORY, SETTINGS_FILENAME)
 
 DEFAULT_SETTINGS = {
     "syringeDiameter" : 21,
-    "defaultFlowRate" : 50.0,
-    "maxFlowRate" : 150.0,
+    "stepsPerMm" : 10,
+    "showSteps" : False,
+    "defaultFlowRate" : 100.0,
+    "directControlSpeed" : 0.5,
     "discoveryqHostname" : "ivmx-discovery3.local",
-    "networkMode" : "Eduroam"
+    "networkMode" : "Eduroam",
+    "colorTheme" : "System"
 }
 
 # ========================
@@ -22,6 +25,19 @@ DEFAULT_SETTINGS = {
 
 
 def getAllSettings() -> dict:
+    # Create settings.json if it doesn't already exist
+    if not os.path.exists(SETTINGS_PATH):
+        print("No settings file found, generating now")
+        resetSettings()
+    
+    # Overwrite settings.json if it is malformed
+    with open(SETTINGS_PATH, "r") as jsonfp:
+        try:
+            json.load(jsonfp)
+        except json.JSONDecodeError:
+            print("Settings file malformed, regenerating")
+            resetSettings()
+    
     with open(SETTINGS_PATH, "r") as jsonfp:
         return json.load(jsonfp)
 
@@ -48,18 +64,7 @@ def resetSettings():
 # On module load
 # ==============
 
-
-# Create settings.json if it doesn't already exist
-if not os.path.exists(SETTINGS_PATH):
-    print("No settings file found, generating now")
-    resetSettings()
-
-# Overwrite settings.json if it is malformed
-with open(SETTINGS_PATH, "r") as jsonfp:
-    try:
-        json.load(jsonfp)
-    except json.JSONDecodeError:
-        print("Settings file malformed, regenerating")
-        resetSettings()
+# This will call all necessary facilities to create the settings file if it doesn't already exist
+getAllSettings()
 
 print(f"Settings loaded from {SETTINGS_PATH}")
