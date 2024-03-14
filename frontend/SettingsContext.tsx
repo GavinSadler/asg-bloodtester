@@ -1,58 +1,57 @@
-
 import { FunctionalComponent, createContext } from "preact";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { getSettings } from "./endpoints";
 
 export interface iSettings {
-    syringeDiameter: number;
-    stepsPerMm: number;
-    showSteps: boolean;
-    defaultFlowRate: number;
-    directControlSpeed: number;
-    discoveryqHostname: string;
-    colorTheme: string;
+  syringeDiameter: number;
+  stepsPerMm: number;
+  showSteps: boolean;
+  defaultFlowRate: number;
+  directControlSpeed: number;
+  discoveryqHostname: string;
+  colorTheme: string;
 }
 
 interface SettingsContextType {
-    settings: iSettings
-    updateSettings: (updatedSettings: iSettings) => void;
+  settings: iSettings;
+  updateSettings: (updatedSettings: iSettings) => void;
 }
 
-const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
+const SettingsContext = createContext<SettingsContextType | undefined>(
+  undefined,
+);
 
 export const SettingsProvider: FunctionalComponent = ({ children }) => {
+  const [settings, setSettings] = useState({} as iSettings);
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
 
-    const [settings, setSettings] = useState({} as iSettings)
-    const [settingsLoaded, setSettingsLoaded] = useState(false)
+  useEffect(() => {
+    getSettings().then((set) => {
+      setSettings(set);
+      setSettingsLoaded(true);
+    });
+  }, []);
 
-    useEffect(() => {
-        getSettings().then((set) => {
-            setSettings(set)
-            setSettingsLoaded(true)
-        })
-    }, [])
+  if (!settingsLoaded) return <h2>One moment...</h2>;
 
-    if (!settingsLoaded)
-        return <h2>One moment...</h2>
+  const updateSettings = (newSettings: iSettings) => {
+    console.log("Settings state updated");
+    setSettings(newSettings);
+  };
 
-    const updateSettings = (newSettings: iSettings) => {
-        console.log("Settings state updated")
-        setSettings(newSettings)
-    }
-
-    return (
-        <SettingsContext.Provider value={{ settings, updateSettings }}>
-            <p>{settings.defaultFlowRate}</p>
-            {children}
-        </SettingsContext.Provider>
-    )
-}
+  return (
+    <SettingsContext.Provider value={{ settings, updateSettings }}>
+      <p>{settings.defaultFlowRate}</p>
+      {children}
+    </SettingsContext.Provider>
+  );
+};
 
 export const useSettings = () => {
-    const settingsContext = useContext(SettingsContext)
+  const settingsContext = useContext(SettingsContext);
 
-    if (!settingsContext)
-        throw new Error('Settings must be used within SettingsProvider')
+  if (!settingsContext)
+    throw new Error("Settings must be used within SettingsProvider");
 
-    return settingsContext;
-}
+  return settingsContext;
+};

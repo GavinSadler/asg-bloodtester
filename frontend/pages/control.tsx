@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import DirectControl from "../components/DirectController";
 import DispenseInput from "../components/DispenseInput";
@@ -13,17 +12,19 @@ export function Control() {
         flexDirection: "column",
         // flexWrap: "wrap",
         alignItems: "center",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
       }}
     >
-      <div style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        alignItems: "center",
-        justifyContent: "space-evenly"
-      }}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+        }}
+      >
         <SpeedInput />
         <DispenseInput />
         <DirectControl />
@@ -34,11 +35,12 @@ export function Control() {
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          justifyContent: "center"
-      }}>
+          justifyContent: "center",
+        }}
+      >
         <Link to="/settings/">Settings</Link>
         <Link to="/discoveryq/">Discovery Q Homepage</Link>
       </div>
     </div>
-  )
+  );
 }

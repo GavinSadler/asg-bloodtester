@@ -1,11 +1,9 @@
-
 import { Link } from "react-router-dom";
 import { NetworkStatus } from "../components/NetworkStatus";
 import { setSettings } from "../endpoints";
 import { iSettings, useSettings } from "../SettingsContext";
 
 export const Settings = () => {
-
   const settingsContext = useSettings();
 
   const handleSubmit = (e: SubmitEvent) => {
@@ -19,9 +17,10 @@ export const Settings = () => {
     // Or you can work with it as a plain object:
     const formJson = Object.fromEntries(formData.entries());
 
-    setSettings(formJson as unknown as iSettings)
-      .then(settingsContext.updateSettings)
-  }
+    setSettings(formJson as unknown as iSettings).then(
+      settingsContext.updateSettings,
+    );
+  };
 
   return (
     <div
@@ -31,35 +30,55 @@ export const Settings = () => {
       }}
     >
       <p>Settings page</p>
-      <form method="post" onSubmit={handleSubmit}
+      <form
+        method="post"
+        onSubmit={handleSubmit}
         style={{
           display: "flex",
-          flexDirection: "column"
+          flexDirection: "column",
         }}
       >
         <label>
           Syringe diameter (mm):
-          <input name="syringeDiameter" defaultValue={settingsContext.settings.syringeDiameter.toString()} />
+          <input
+            name="syringeDiameter"
+            defaultValue={settingsContext.settings.syringeDiameter.toString()}
+          />
         </label>
         <label>
           Motor calibration value (steps/mm):
-          <input name="stepsPerMm" defaultValue={settingsContext.settings.stepsPerMm.toString()} />
+          <input
+            name="stepsPerMm"
+            defaultValue={settingsContext.settings.stepsPerMm.toString()}
+          />
         </label>
         <label>
           Default flow rate (uL/min):
-          <input name="defaultFlowRate" defaultValue={settingsContext.settings.defaultFlowRate.toString()} />
+          <input
+            name="defaultFlowRate"
+            defaultValue={settingsContext.settings.defaultFlowRate.toString()}
+          />
         </label>
         <label>
           Direct control speed (cm/sec):
-          <input name="directControlSpeed" defaultValue={settingsContext.settings.directControlSpeed.toString()} />
+          <input
+            name="directControlSpeed"
+            defaultValue={settingsContext.settings.directControlSpeed.toString()}
+          />
         </label>
         <label>
           DiscoveryQ Hostname:
-          <input name="discoveryqHostname" defaultValue={settingsContext.settings.discoveryqHostname} />
+          <input
+            name="discoveryqHostname"
+            defaultValue={settingsContext.settings.discoveryqHostname}
+          />
         </label>
         <label>
           Color theme:
-          <input name="discoveryqHostname" defaultValue={settingsContext.settings.colorTheme} />
+          <input
+            name="discoveryqHostname"
+            defaultValue={settingsContext.settings.colorTheme}
+          />
         </label>
 
         <input type="submit" value="Save settings" />
@@ -68,5 +87,5 @@ export const Settings = () => {
       <NetworkStatus />
       <Link to="/">Back</Link>
     </div>
-  )
-}
+  );
+};

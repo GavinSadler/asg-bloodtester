@@ -17,13 +17,15 @@
   margin: 0;
 }
 
-html, body, #app {
-  height:100%;
+html,
+body,
+#app {
+  height: 100%;
 }
 
 body {
-  overflow-y:scroll;
-  overflow-x:hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #app {
@@ -74,7 +76,7 @@ input {
 }
 
 .main-container > * {
-  margin: 10px
+  margin: 10px;
 }
 
 .control-options {
