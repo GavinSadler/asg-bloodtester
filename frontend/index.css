@@ -1,96 +1,96 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 
-  color-scheme: light dark;
-  color: #213547;
-  background-color: #ffffff;
+    color-scheme: light dark;
+    color: #213547;
+    background-color: #ffffff;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 * {
-  margin: 0;
+    margin: 0;
 }
 
 html,
 body,
 #app {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  overflow-y: scroll;
-  overflow-x: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #app {
-  box-sizing: border-box;
-  padding: 30px;
+    box-sizing: border-box;
+    padding: 30px;
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
 }
 
 a:hover {
-  color: #747bff;
+    color: #747bff;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1.5em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #d4d4d4;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  margin: 3px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1.5em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #d4d4d4;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    margin: 3px;
 }
 
 button:hover {
-  border-color: #646cff;
+    border-color: #646cff;
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+    outline: 4px auto -webkit-focus-ring-color;
 }
 
 input {
-  font-size: 1.5em;
-  font-weight: 500;
-  font-family: inherit;
+    font-size: 1.5em;
+    font-weight: 500;
+    font-family: inherit;
 }
 
 .main-container {
-  height: 100%;
+    height: 100%;
 }
 
 .main-container > * {
-  margin: 10px;
+    margin: 10px;
 }
 
 .control-options {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .control-options > * {
-  margin: 10px;
-  width: 100%;
-  text-align: center;
+    margin: 10px;
+    width: 100%;
+    text-align: center;
 }
 
 .links > a {
-  margin: 20px;
+    margin: 20px;
 }
