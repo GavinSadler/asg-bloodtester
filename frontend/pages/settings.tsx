@@ -1,20 +1,12 @@
 
 import { Link } from "react-router-dom";
 import { NetworkStatus } from "../components/NetworkStatus";
-import { getSettings, setSettings, settings } from "../endpoints";
-import { useEffect, useState } from "preact/hooks";
+import { setSettings } from "../endpoints";
+import { iSettings, useSettings } from "../SettingsContext";
 
-export function Settings() {
+export const Settings = () => {
 
-  const [fetchedSettings, setFetchedSettings] = useState({} as settings)
-  const [settingsFetched, setSettingsFetched] = useState(false)
-
-  useEffect(() => {
-    getSettings().then((grabbedSettings) => {
-      setFetchedSettings(grabbedSettings)
-      setSettingsFetched(true)
-    })
-  }, [])
+  const settingsContext = useSettings();
 
   const handleSubmit = (e: SubmitEvent) => {
     // Prevent the browser from reloading the page
@@ -27,7 +19,8 @@ export function Settings() {
     // Or you can work with it as a plain object:
     const formJson = Object.fromEntries(formData.entries());
 
-    setSettings(formJson as unknown as settings)
+    setSettings(formJson as unknown as iSettings)
+      .then(settingsContext.updateSettings)
   }
 
   return (
@@ -38,43 +31,40 @@ export function Settings() {
       }}
     >
       <p>Settings page</p>
-      {!settingsFetched ?
-        <h2>Fetching settings</h2>
-        :
-        <form method="post" onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column"
-          }}
-        >
-          <label>
-            Syringe diameter (mm):
-            <input name="syringeDiameter" defaultValue={fetchedSettings.syringeDiameter.toString()} />
-          </label>
-          <label>
-            Motor calibration value (steps/mm):
-            <input name="stepsPerMm" defaultValue={fetchedSettings.stepsPerMm.toString()} />
-          </label>
-          <label>
-            Default flow rate (uL/min):
-            <input name="defaultFlowRate" defaultValue={fetchedSettings.defaultFlowRate.toString()} />
-          </label>
-          <label>
-            Direct control speed (cm/sec):
-            <input name="directControlSpeed" defaultValue={fetchedSettings.directControlSpeed.toString()} />
-          </label>
-          <label>
-            DiscoveryQ Hostname:
-            <input name="discoveryqHostname" defaultValue={fetchedSettings.discoveryqHostname} />
-          </label>
-          <label>
-            Color theme:
-            <input name="discoveryqHostname" defaultValue={fetchedSettings.colorTheme} />
-          </label>
+      <form method="post" onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column"
+        }}
+      >
+        <label>
+          Syringe diameter (mm):
+          <input name="syringeDiameter" defaultValue={settingsContext.settings.syringeDiameter.toString()} />
+        </label>
+        <label>
+          Motor calibration value (steps/mm):
+          <input name="stepsPerMm" defaultValue={settingsContext.settings.stepsPerMm.toString()} />
+        </label>
+        <label>
+          Default flow rate (uL/min):
+          <input name="defaultFlowRate" defaultValue={settingsContext.settings.defaultFlowRate.toString()} />
+        </label>
+        <label>
+          Direct control speed (cm/sec):
+          <input name="directControlSpeed" defaultValue={settingsContext.settings.directControlSpeed.toString()} />
+        </label>
+        <label>
+          DiscoveryQ Hostname:
+          <input name="discoveryqHostname" defaultValue={settingsContext.settings.discoveryqHostname} />
+        </label>
+        <label>
+          Color theme:
+          <input name="discoveryqHostname" defaultValue={settingsContext.settings.colorTheme} />
+        </label>
 
-          <input type="submit" value="Save settings" />
-        </form>
-      }
+        <input type="submit" value="Save settings" />
+      </form>
+
       <NetworkStatus />
       <Link to="/">Back</Link>
     </div>

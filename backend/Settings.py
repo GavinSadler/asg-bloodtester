@@ -9,8 +9,8 @@ SETTINGS_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SETTINGS_PATH = os.path.join(SETTINGS_DIRECTORY, SETTINGS_FILENAME)
 
 DEFAULT_SETTINGS = {
-    "syringeDiameter" : 21,
-    "stepsPerMm" : 10,
+    "syringeDiameter" : 21.0,
+    "stepsPerMm" : 4063.89474,
     "showSteps" : False,
     "defaultFlowRate" : 100.0,
     "directControlSpeed" : 0.5,

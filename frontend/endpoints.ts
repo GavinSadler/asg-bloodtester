@@ -1,15 +1,6 @@
+import { iSettings } from "./SettingsContext";
 
 export const toplevel = `${window.location.protocol}//${window.location.hostname}:5000`
-
-export interface settings {
-    syringeDiameter: number;
-    stepsPerMm: number;
-    showSteps: boolean;
-    defaultFlowRate: number;
-    directControlSpeed: number;
-    discoveryqHostname: string;
-    colorTheme: string;
-}
 
 export function networkinfo(): Promise<string> {
     return new Promise((ret, rej) => {
@@ -46,6 +37,10 @@ export function setDispenseSpeed(speed: number) {
     return fetch(toplevel + "/setDispenseSpeed?speed=" + String(speed))
 }
 
+export function setCarriageSpeed(speed: number) {
+    return fetch(`${toplevel}/setCarriageSpeed?speed=${String(speed)}`)
+}
+
 export function getSteps() {
     return fetch(`${toplevel}/getSteps`)
         .then(res => res.text())
@@ -56,11 +51,11 @@ export function getSettings() {
     return fetch(`${toplevel}/settings`)
         .then(res => res.json())
         .then(res => {
-            return res as settings
+            return res as iSettings
         })
 }
 
-export function setSettings(newSettings: settings) {
+export function setSettings(newSettings: iSettings) {
     const headers: Headers = new Headers()
     headers.set('Content-Type', 'application/json')
     headers.set('Accept', 'application/json')
@@ -73,7 +68,7 @@ export function setSettings(newSettings: settings) {
 
     return fetch(request)
         .then(res => res.json())
-        .then(res => res as settings)
+        .then(res => res as iSettings)
 }
 
 // =====================

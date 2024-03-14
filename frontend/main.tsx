@@ -1,14 +1,15 @@
 import { render } from 'preact';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './index.css';
-import { App } from './pages/app.tsx';
+import { Control } from './pages/control.tsx';
 import { DiscoveryQ } from './pages/discoveryq.tsx';
 import { Settings } from './pages/settings.tsx';
+import { SettingsProvider } from './SettingsContext.tsx';
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: <Control />,
     },
     {
         path: "/settings/",
@@ -20,4 +21,9 @@ const router = createBrowserRouter([
     }
 ]);
 
-render(<RouterProvider router={router} />, document.getElementById('app')!)
+render(
+    <SettingsProvider>
+        <RouterProvider router={router} />
+    </SettingsProvider>
+    , document.getElementById('app')!
+)

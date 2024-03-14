@@ -14,7 +14,7 @@ try:
 
     motor = MotorController.MotorController()
     syringe = SyringeController.Syringe(
-        motor, float(Settings.getSetting("syringeDiameter"))
+        motor, float(Settings.getSetting("syringeDiameter")), float(Settings.getSetting("stepsPerMm"))
     )
 except Exception as e:
     print("Unable to load motorController and/or syringeController: ", e)
@@ -159,10 +159,9 @@ def setCarriageSpeed():
     if speed <= 0:
         return {"error": f"argument speed was negative ({speed}) or not supplied"}, 400
 
-    raise NotImplementedError
-    # syringe.setDispenseSpeed(speed)
+    syringe.setCarriageSpeed(speed)
 
-    # return {"dispenseSpeed": speed}
+    return {"carriageSpeed": speed}
 
 
 @app.route("/getSteps")

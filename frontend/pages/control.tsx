@@ -4,7 +4,7 @@ import DirectControl from "../components/DirectController";
 import DispenseInput from "../components/DispenseInput";
 import SpeedInput from "../components/SpeedInput";
 
-export function App() {
+export function Control() {
   return (
     <div
       className={"main-container"}
@@ -26,7 +26,7 @@ export function App() {
       }}>
         <SpeedInput />
         <DispenseInput />
-        <DirectControl showSteps={true} />
+        <DirectControl />
       </div>
       <div
         className="links"

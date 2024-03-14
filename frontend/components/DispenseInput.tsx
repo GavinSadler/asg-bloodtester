@@ -1,9 +1,11 @@
 
-import { useRef } from "preact/hooks";
-import { dispense, retract } from "../endpoints";
+import { useContext, useRef } from "preact/hooks";
+import { dispense, retract, setDispenseSpeed } from "../endpoints";
+import { SettingsContext } from "../SettingsContext";
 
 export default function DispenseInput() {
 
+  const settings = useContext(SettingsContext)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const validateInput = () => {
@@ -22,8 +24,22 @@ export default function DispenseInput() {
         onfocusout={validateInput}
         onKeyDown={(e) => { if (e.key === 'Enter') validateInput() }}
       />
-      <button onClick={() => {validateInput(); dispense(inputRef.current!.valueAsNumber)}}>Dispense</button>
-      <button onClick={() => {validateInput(); retract(inputRef.current!.valueAsNumber)}}>Retract</button>
+      <button
+        onClick={() => {
+          validateInput();
+          setDispenseSpeed(settings.settings.directControlSpeed);
+          dispense(inputRef.current!.valueAsNumber)
+        }}>
+        Dispense
+      </button>
+      <button
+        onClick={() => {
+          validateInput();
+          setDispenseSpeed(settings.settings.directControlSpeed);
+          retract(inputRef.current!.valueAsNumber)
+        }}>
+        Retract
+      </button>
     </label>
   )
 }

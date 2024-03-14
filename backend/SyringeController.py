@@ -2,11 +2,9 @@
 from MotorController import *
 import math
 
-MICROSTEPS_PER_M = 4063894.74
-
 class Syringe():
     
-    def __init__(self, motor: MotorController, diameter_mm: float):
+    def __init__(self, motor: MotorController, diameter_mm: float, steps_per_mm: float):
         """ Controls a syringe
 
         Args:
@@ -15,6 +13,8 @@ class Syringe():
         """
         
         self.motor = motor
+        
+        self.stepsPerM = steps_per_mm * 10**3
         
         self.setDiameter(diameter_mm * 10**(-3))
         
@@ -55,23 +55,25 @@ class Syringe():
         LperSec = LperMin / 60
         m3perSec = LperSec * 0.001
         mperSec = m3perSec / self._area
-        microstepsPerSec = mperSec * MICROSTEPS_PER_M
+        stepsPerSec = mperSec * self.stepsPerM
                 
-        self.motor.setStepSpeed(microstepsPerSec)
+        self.motor.setStepSpeed(stepsPerSec)
     
     def setCarriageSpeed(self, mmPerSecond: float):
-        """ Sets the motor's speed so the syringe carriage moves at a specific speed """
-        raise NotImplementedError
+        """ Sets the motor's speed so the syringe carriage moves at a specific speed in cm per second """
+        mPerSecond = mmPerSecond * 10**(-3)
+        stepsPerSecond = mPerSecond * self.stepsPerM
+        self.motor.setStepSpeed(stepsPerSecond)
     
     def getStepsFrommL(self, mL: float):
-        """ Returns the number of motor microsteps from the given amount of liquid in milliliters """
+        """ Returns the number of motor steps from the given amount of liquid in milliliters """
         
         l = mL * 10**(-3)
         m3 = l * 10**(-3)
         m = m3 / self._area
-        microsteps = m * MICROSTEPS_PER_M
+        steps = m * self.stepsPerM
         
-        return int(microsteps) 
+        return int(steps) 
     
 
     def setDiameter(self, newDiameter: float):

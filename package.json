@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "remoteMachine": "10.248.62.46",
+  "remoteMachine": "10.248.52.221",
   "scripts": {
     "dev": "vite --cors",
     "build": "tsc && vite build --outDir ./dist --emptyOutDir",
@@ -22,6 +22,8 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.7.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   }

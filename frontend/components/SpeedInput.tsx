@@ -1,9 +1,11 @@
 
 import { useEffect, useRef } from "preact/hooks";
 import { setDispenseSpeed } from "../endpoints";
+import {  useSettings } from "../SettingsContext";
 
 export default function SpeedInput() {
 
+  const settings = useSettings()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const updateSpeed = () => {
@@ -23,7 +25,7 @@ export default function SpeedInput() {
       <input
         ref={inputRef}
         type="number"
-        defaultValue="100.0"
+        defaultValue={settings.settings.defaultFlowRate.toString()}
         onfocusout={updateSpeed}
         onKeyDown={(e) => {if (e.key === 'Enter') updateSpeed()}}
       />
