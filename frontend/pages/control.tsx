@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
 import DirectControl from '../components/DirectController';
-import DispenseInput from '../components/DispenseInput';
+import DispenseController from '../components/DispenseController';
 import SpeedInput from '../components/SpeedInput';
+import { useSettings } from '../components/SettingsContext';
+import { useState } from 'preact/hooks';
 
 export function Control() {
+    const settingsContext = useSettings();
+    const [dispenseSpeed, setDispenseSpeed] = useState(settingsContext.settings.defaultFlowRate);
+
     return (
         <div
             className={'main-container'}
@@ -25,8 +30,8 @@ export function Control() {
                     justifyContent: 'space-evenly',
                 }}
             >
-                <SpeedInput />
-                <DispenseInput />
+                <SpeedInput dispenseSpeed={dispenseSpeed} setDispenseSpeed={setDispenseSpeed} />
+                <DispenseController dispenseSpeed={dispenseSpeed} />
                 <DirectControl />
             </div>
             <div

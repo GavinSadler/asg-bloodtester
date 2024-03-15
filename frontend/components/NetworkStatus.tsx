@@ -2,15 +2,11 @@ import { useEffect, useState } from 'preact/hooks';
 import { networkinfo } from '../endpoints';
 
 export function NetworkStatus() {
-    useEffect(() => {
-        networkinfo()
-            .then(setNetworkString)
-            .catch((reason) => {
-                setNetworkString(`Unable to grab network information: ${reason}`);
-            });
-    }, []);
+    const [netInfo, setNetInfo] = useState();
 
-    const [networkString, setNetworkString] = useState('');
+    useEffect(() => {
+        networkinfo().then(setNetInfo);
+    }, []);
 
     return (
         <div>
@@ -20,10 +16,10 @@ export function NetworkStatus() {
                     backgroundColor: 'black',
                     color: 'white',
                     fontFamily: 'Courier New, monospaced,',
-                    fontSize: 11,
+                    fontSize: 22,
                 }}
             >
-                {networkString === '' ? 'Grabbing network information' : networkString}
+                {JSON.stringify(netInfo)}
             </p>
         </div>
     );

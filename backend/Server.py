@@ -1,6 +1,6 @@
 import argparse
-import platform
-import subprocess
+import socket
+import netifaces
 
 import requests
 import Settings
@@ -35,17 +35,8 @@ def root():
 
 @app.route("/networkinfo")
 def networkinfo():
-
-    plat = platform.platform().lower()
-
-    if "windows" in plat:
-        return {"output": subprocess.check_output(["ipconfig"]).decode()}
-    elif "linux" in plat:
-        return {"output": subprocess.check_output(["nmcli"]).decode()}
-
-    return {
-        "error": "unable to grab network information, error parsing platform information"
-    }, 500
+    
+    return netifaces.gateways()
 
 
 @app.route("/settings", methods=["GET", "POST"])
@@ -145,7 +136,6 @@ def setDispenseSpeed():
     syringe.setDispenseSpeed(speed)
 
     return {"dispenseSpeed": speed}
-
 
 @app.route("/setCarriageSpeed")
 def setCarriageSpeed():

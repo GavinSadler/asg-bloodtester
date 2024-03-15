@@ -9,7 +9,6 @@ export interface iSettings {
     defaultFlowRate: number;
     directControlSpeed: number;
     discoveryqHostname: string;
-    colorTheme: string;
 }
 
 interface SettingsContextType {
@@ -37,12 +36,7 @@ export const SettingsProvider: FunctionalComponent = ({ children }) => {
         setSettings(newSettings);
     };
 
-    return (
-        <SettingsContext.Provider value={{ settings, updateSettings }}>
-            <p>{settings.defaultFlowRate}</p>
-            {children}
-        </SettingsContext.Provider>
-    );
+    return <SettingsContext.Provider value={{ settings, updateSettings }}>{children}</SettingsContext.Provider>;
 };
 
 export const useSettings = () => {

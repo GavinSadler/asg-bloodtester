@@ -1,9 +1,12 @@
 import { useRef } from 'preact/hooks';
 import { dispense, retract, setDispenseSpeed } from '../endpoints';
-import { useSettings } from './SettingsContext';
+import { FunctionalComponent } from 'preact';
 
-export default function DispenseInput() {
-    const settings = useSettings();
+interface DispenseControllerProps {
+    dispenseSpeed: number;
+}
+
+const DispenseController: FunctionalComponent<DispenseControllerProps> = (props) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const validateInput = () => {
@@ -27,7 +30,7 @@ export default function DispenseInput() {
             <button
                 onClick={() => {
                     validateInput();
-                    setDispenseSpeed(settings.settings.directControlSpeed);
+                    setDispenseSpeed(props.dispenseSpeed);
                     dispense(inputRef.current!.valueAsNumber);
                 }}
             >
@@ -36,7 +39,7 @@ export default function DispenseInput() {
             <button
                 onClick={() => {
                     validateInput();
-                    setDispenseSpeed(settings.settings.directControlSpeed);
+                    setDispenseSpeed(props.dispenseSpeed);
                     retract(inputRef.current!.valueAsNumber);
                 }}
             >
@@ -44,4 +47,6 @@ export default function DispenseInput() {
             </button>
         </label>
     );
-}
+};
+
+export default DispenseController;

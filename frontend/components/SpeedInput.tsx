@@ -1,20 +1,24 @@
-import { useEffect, useRef } from 'preact/hooks';
+import { StateUpdater, useRef } from 'preact/hooks';
+import { FunctionalComponent } from 'preact';
 import { setDispenseSpeed } from '../endpoints';
-import { useSettings } from './SettingsContext';
 
-export default function SpeedInput() {
-    const settings = useSettings();
+interface SpeedInputProps {
+    dispenseSpeed: number;
+    setDispenseSpeed: StateUpdater<number>;
+}
+
+const SpeedInput: FunctionalComponent<SpeedInputProps> = (props) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const updateSpeed = () => {
+        if (!inputRef.current) return;
+
         // Reset input to 0 if the input is invalid (negative numbers)
-        if (inputRef.current!.valueAsNumber < 0) inputRef.current!.value = '0';
+        if (inputRef.current.valueAsNumber < 0) inputRef.current.value = '0';
 
-        setDispenseSpeed(inputRef.current!.valueAsNumber);
+        props.setDispenseSpeed(inputRef.current.valueAsNumber);
+        setDispenseSpeed(inputRef.current.valueAsNumber);
     };
-
-    // This sends our default speed to the backend when the page is loaded
-    useEffect(updateSpeed, []);
 
     return (
         <label className="control-options">
@@ -22,7 +26,7 @@ export default function SpeedInput() {
             <input
                 ref={inputRef}
                 type="number"
-                defaultValue={settings.settings.defaultFlowRate.toString()}
+                defaultValue={props.dispenseSpeed.toString()}
                 // eslint-disable-next-line react/no-unknown-property
                 onfocusout={updateSpeed}
                 onKeyDown={(e) => {
@@ -32,4 +36,6 @@ export default function SpeedInput() {
             <button onClick={updateSpeed}>Set speed</button>
         </label>
     );
-}
+};
+
+export default SpeedInput;

@@ -2,14 +2,8 @@ import { iSettings } from './components/SettingsContext';
 
 export const toplevel = `${window.location.protocol}//${window.location.hostname}:5000`;
 
-export function networkinfo(): Promise<string> {
-    return new Promise((ret, rej) => {
-        fetch(`${toplevel}/networkinfo`)
-            .then((res) => {
-                res.text().then(ret).catch(rej);
-            })
-            .catch(rej);
-    });
+export function networkinfo() {
+    return fetch(`${toplevel}/networkinfo`).then((res) => res.json());
 }
 
 export function dispense(amount: number) {

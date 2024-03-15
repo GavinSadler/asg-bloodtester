@@ -16,7 +16,6 @@ DEFAULT_SETTINGS = {
     "directControlSpeed" : 0.5,
     "discoveryqHostname" : "ivmx-discovery3.local",
     "networkMode" : "Eduroam",
-    "colorTheme" : "System"
 }
 
 # ========================

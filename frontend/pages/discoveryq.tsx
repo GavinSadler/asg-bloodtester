@@ -10,7 +10,7 @@ export function DiscoveryQ() {
                 height: '100%',
             }}
         >
-            <iframe src={`${toplevel}/discoveryq`} style={{ height: '100%' }}></iframe>
+            <iframe src={`${toplevel}/discoveryqproxy`} style={{ height: '100%' }}></iframe>
             <Link to="/">Back</Link>
         </div>
     );
