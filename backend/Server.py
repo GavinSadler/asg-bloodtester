@@ -36,7 +36,12 @@ def root():
 @app.route("/networkinfo")
 def networkinfo():
     
-    return netifaces.gateways()
+    ipinfo = {}
+    
+    for interface in netifaces.interfaces():
+        ipinfo[interface] = netifaces.ifaddresses(interface)
+    
+    return ipinfo
 
 
 @app.route("/settings", methods=["GET", "POST"])
