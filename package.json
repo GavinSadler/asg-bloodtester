@@ -17,7 +17,7 @@
         "runBackend": "cd ./backend && python Server.py --debug",
         "pushBackend": "ssh pi@%npm_package_remoteMachine% 'rm -rf ~/backend' && rm -rf ./backend/__pycache__ && scp -r ./backend pi@%npm_package_remoteMachine%:~/backend",
         "deployBackend": "yarn pushBackend && ssh pi@%npm_package_remoteMachine% 'systemctl --user restart backend.service'",
-        "deploy": "yarn build && yarn deployFrontend && yarn deployBackend",
+        "deploy": "yarn build && yarn deployBackend && yarn deployFrontend",
         "ssh": "ssh pi@%npm_package_remoteMachine% -L 5000:127.0.0.1:5000 -L 80:127.0.0.1:80"
     },
     "dependencies": {

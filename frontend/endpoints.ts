@@ -3,7 +3,7 @@ import { iSettings } from './components/SettingsContext';
 export const toplevel = `${window.location.protocol}//${window.location.hostname}:5000`;
 
 export function networkinfo() {
-    return fetch(`${toplevel}/networkinfo`).then((res) => res.json());
+    return fetch(`${toplevel}/networkinfo`).then((res) => res.text());
 }
 
 export function dispense(amount: number) {

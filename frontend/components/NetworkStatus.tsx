@@ -2,7 +2,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { networkinfo } from '../endpoints';
 
 export function NetworkStatus() {
-    const [netInfo, setNetInfo] = useState();
+    const [netInfo, setNetInfo] = useState('Fetching IP...');
 
     useEffect(() => {
         networkinfo().then(setNetInfo);
@@ -19,7 +19,7 @@ export function NetworkStatus() {
                     fontSize: 22,
                 }}
             >
-                {JSON.stringify(netInfo)}
+                {'IP address: ' + netInfo}
             </p>
         </div>
     );
