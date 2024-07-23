@@ -3,7 +3,7 @@ import argparse
 import netifaces
 import requests
 import Settings
-from flask import Flask, Response, request
+from flask import Flask, Response, request, send_from_directory
 from flask_cors import CORS
 
 # If we are testing locally, these will not be able to import
@@ -16,7 +16,7 @@ try:
 except Exception as e:
     print("Unable to load motorController and/or syringeController: ", e)
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../dist/assets", static_url_path="/assets")
 cors = CORS(app)
 
 
@@ -26,8 +26,14 @@ cors = CORS(app)
 
 
 @app.route("/")
-def root():
-    return "Backend running"
+def serve_index():
+    return send_from_directory("../dist", "index.html")
+
+
+# This route is to serve static files from assets folder
+@app.route("/assets/<path:path>")
+def serve_static(path):
+    return send_from_directory("../dist/assets", path)
 
 
 @app.route("/networkinfo")
