@@ -1,10 +1,9 @@
 import argparse
-import socket
-import netifaces
 
+import netifaces
 import requests
 import Settings
-from flask import Flask, Response, request, send_from_directory
+from flask import Flask, Response, request
 from flask_cors import CORS
 
 # If we are testing locally, these will not be able to import
@@ -13,9 +12,7 @@ try:
     import SyringeController
 
     motor = MotorController.MotorController()
-    syringe = SyringeController.Syringe(
-        motor, float(Settings.getSetting("syringeDiameter")), float(Settings.getSetting("stepsPerMm"))
-    )
+    syringe = SyringeController.Syringe(motor, float(Settings.getSetting("syringeDiameter")), float(Settings.getSetting("stepsPerMm")))
 except Exception as e:
     print("Unable to load motorController and/or syringeController: ", e)
 
@@ -35,8 +32,8 @@ def root():
 
 @app.route("/networkinfo")
 def networkinfo():
-    
-    return netifaces.ifaddresses('wlan0')[2][0]['addr']
+
+    return netifaces.ifaddresses("wlan0")[2][0]["addr"]
 
 
 @app.route("/settings", methods=["GET", "POST"])
@@ -75,9 +72,7 @@ def dispense():
         return {"error": f"could not parse float from argument amount ({amount})"}, 400
 
     if amount < 0:
-        return {
-            "error": f"argument amount was negative ({amount}) or not supplied"
-        }, 400
+        return {"error": f"argument amount was negative ({amount}) or not supplied"}, 400
 
     syringe.dispense(amount)
 
@@ -94,9 +89,7 @@ def retract():
         return {"error": f"could not parse float from argument amount ({amount})"}, 400
 
     if amount < 0:
-        return {
-            "error": f"argument amount was negative ({amount}) or not supplied"
-        }, 400
+        return {"error": f"argument amount was negative ({amount}) or not supplied"}, 400
 
     syringe.retract(amount)
 
@@ -136,6 +129,7 @@ def setDispenseSpeed():
     syringe.setDispenseSpeed(speed)
 
     return {"dispenseSpeed": speed}
+
 
 @app.route("/setCarriageSpeed")
 def setCarriageSpeed():
@@ -178,9 +172,7 @@ def forwaredRequest(subpath):
     proxiedResponse = requests.request(
         method=request.method,
         url=proxyUrl,
-        headers={
-            k: v for k, v in request.headers if k.lower() != "host"
-        },  # exclude 'host' header
+        headers={k: v for k, v in request.headers if k.lower() != "host"},  # exclude 'host' header
         data=request.get_data(),
         cookies=request.cookies,
         allow_redirects=False,
@@ -194,11 +186,7 @@ def forwaredRequest(subpath):
         "transfer-encoding",
         "connection",
     ]
-    headers = [
-        (k, v)
-        for k, v in proxiedResponse.raw.headers.items()
-        if k.lower() not in excluded_headers
-    ]
+    headers = [(k, v) for k, v in proxiedResponse.raw.headers.items() if k.lower() not in excluded_headers]
 
     response = Response(proxiedResponse.content, proxiedResponse.status_code, headers)
     return response
@@ -206,7 +194,7 @@ def forwaredRequest(subpath):
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
-    args.add_argument('-d', '--debug', action='store_true', help='Enable debug mode')
+    args.add_argument("-d", "--debug", action="store_true", help="Enable debug mode")
     args = args.parse_args()
-    
+
     app.run(host="0.0.0.0", debug=args.debug)

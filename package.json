@@ -5,7 +5,7 @@
     "type": "module",
     "remoteMachine": "10.248.58.113",
     "scripts": {
-        "format": "prettier --write .",
+        "format": "prettier --write . && python -m autoflake -i -r -v ./backend && python -m isort ./backend && python -m black ./backend",
         "lint": "eslint --ignore-path .gitignore .",
         "prep": "yarn format && yarn lint",
         "---------------": "---------------",

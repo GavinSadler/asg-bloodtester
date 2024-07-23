@@ -1,4 +1,3 @@
-
 from threading import Event, Lock, Thread
 from time import sleep
 
@@ -40,9 +39,7 @@ class MotorController:
 
         # Keeps track of the direction of the motor
         # 0 is clockwise, 1 is counter-clockwise
-        self._direction = (
-            CLOCKWISE  # !!! Need to acquire _stepCounterLock to modify !!!
-        )
+        self._direction = CLOCKWISE  # !!! Need to acquire _stepCounterLock to modify !!!
         self.setDirection(CLOCKWISE)
 
     def __del__(self):
