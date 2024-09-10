@@ -1,10 +1,10 @@
-import { StateUpdater, useRef } from 'preact/hooks';
+import { Dispatch, StateUpdater, useRef } from 'preact/hooks';
 import { FunctionalComponent } from 'preact';
 import { setDispenseSpeed } from '../endpoints';
 
 interface SpeedInputProps {
     dispenseSpeed: number;
-    setDispenseSpeed: StateUpdater<number>;
+    setDispenseSpeed: Dispatch<StateUpdater<number>>;
 }
 
 const SpeedInput: FunctionalComponent<SpeedInputProps> = (props) => {
@@ -28,7 +28,7 @@ const SpeedInput: FunctionalComponent<SpeedInputProps> = (props) => {
                 type="number"
                 defaultValue={props.dispenseSpeed.toString()}
                 // eslint-disable-next-line react/no-unknown-property
-                onfocusout={updateSpeed}
+                onFocusOut={updateSpeed}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') updateSpeed();
                 }}

@@ -22,7 +22,7 @@ const DispenseController: FunctionalComponent<DispenseControllerProps> = (props)
                 type="number"
                 defaultValue="1.0"
                 // eslint-disable-next-line react/no-unknown-property
-                onfocusout={validateInput}
+                onFocusOut={validateInput}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') validateInput();
                 }}
